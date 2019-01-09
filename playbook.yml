@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  tasks:
+    - copy:
+        src: zsh/zshrc.sh
+        dest: "{{ ansible_user_dir }}/.zshrc"

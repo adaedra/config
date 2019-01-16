@@ -5,12 +5,13 @@ if [ "$TERM_PROGRAM" != 'vscode' ]; then
 
         _git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
         [ -z "${_git_branch}" -o "${_git_branch}" = "HEAD" ] && _git_branch="(detached)"
-        _git_project=$(basename $(git rev-parse --git-dir))
-        [ "$_git_project" = ".git" ] && _git_project=$(basename $PWD)
+        _git_project=$(dirname $(git rev-parse --git-dir))
+        [ "$_git_project" = "." ] && _git_project=$PWD
+        _git_project=$(basename $_git_project)
         _git_changes=$(echo $(git status --porcelain -uno | wc -l))
 
         print
-        print -n -P " %F{243}${_git_project} ›%f "
+        print -n -P " %F{243}${_git_project} › "
         if [ "${_git_branch[1]}" = '(' ]; then
             _git_commit=$(git rev-parse --short HEAD 2>/dev/null)
 
@@ -24,7 +25,7 @@ if [ "$TERM_PROGRAM" != 'vscode' ]; then
         else
             print -n -P "%F{green} ${_git_branch}%f"
         fi
-        print
+        print -P " %F{243}» %F{blue}%1~"
     }
 fi
 
